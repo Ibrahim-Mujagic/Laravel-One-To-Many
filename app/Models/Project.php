@@ -8,8 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     use HasFactory;
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
 
-    protected $fillable = ['name','client_name','cover_image','summary','slug','original_image_name'];
+    protected $fillable = ['name','client_name','cover_image','summary','slug','original_image_name','category_id'];
 
     public static function generateSlug($string){
 

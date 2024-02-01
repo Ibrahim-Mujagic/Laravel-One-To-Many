@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProjectRequest;
+use App\Models\Category;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -20,12 +21,19 @@ class ProjectController extends Controller
         return view('admin.projects.index',compact('projects'));
     }
 
+    public function project_category(){
+        $categories = Category::all();
+
+         return view('admin.projects.category_projects',compact('categories'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('admin.projects.create');
+        $categories = Category::all();
+        return view('admin.projects.create',compact('categories'));
 
     }
 
@@ -63,7 +71,8 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return view('admin.projects.edit',compact('project'));
+        $categories = Category::all();
+        return view('admin.projects.edit',compact('project','categories'));
     }
 
     /**

@@ -2,7 +2,7 @@
 
 @section('content')
 <h1 class="text-center">CREATE</h1>
-<a class="btn btn-outline-dark mt-4" href="{{route('admin.projects.index')}}">Home</a>
+<a class="btn btn-outline-dark m-4" href="{{route('admin.projects.index')}}">Projects</a>
 @if ($errors->any())
 <div class="alert alert-danger">
   <ul>
@@ -15,6 +15,7 @@
 <div class="container my-3 ib-form">
   <form action="{{route('admin.projects.store')}}" method="POST" enctype="multipart/form-data">
     @csrf
+
     <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label">Nome Progetto</label>
       <input type="text" class="form-control @error('name') is-invalid @enderror " value="{{old('name')}}"
@@ -28,6 +29,18 @@
         value="{{old('client_name')}}" placeholder="Inserisci il nome del cliente" name="client_name">
       @error('client_name') <p class="text-danger"> {{$message}} </p> @enderror
     </div>
+
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Categoria</label>
+      <select name="category_id" class="form-select" aria-label="Default select example">
+        <option value="">Seleziona categoria</option>
+        @foreach($categories as $category)
+        <option @if($category->id === old('category_id')) selected @endif value="{{$category->id}}">{{$category->name}}
+        </option>
+        @endforeach
+      </select>
+    </div>
+
     <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label">Immagine</label>
       <input type="file" onchange="showImage(event)" class="form-control @error('cover_image') is-invalid @enderror "
@@ -37,11 +50,13 @@
         <img src="" alt="" id="output-image">
       </div>
     </div>
+
     <div class="mb-3">
       <label for="exampleFormControlTextarea1" class="form-label">Descrizione</label>
       <textarea class="form-control" rows="5" name="summary"></textarea>
       @error('summary') <p class="text-danger"> {{$message}} </p> @enderror
     </div>
+
     <button class="btn btn-outline-primary" type="submit">Invia</button>
 </div>
 <script>

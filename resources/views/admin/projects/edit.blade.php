@@ -2,7 +2,7 @@
 
 @section('content')
 <h1 class="text-center">EDIT</h1>
-<a class="btn btn-outline-dark mt-4 d-inline" href="{{route('admin.projects.index')}}">Home</a>
+<a class="btn btn-outline-dark mt-4 d-inline" href="{{route('admin.projects.index')}}">Projects</a>
 @include('admin.partials.form-delete',[$project])
 
 @if ($errors->any())
@@ -14,6 +14,7 @@
   </ul>
 </div>
 @endif
+
 <div class="container my-3 ib-form">
   <form action="{{route('admin.projects.update',$project)}}" method="POST" enctype="multipart/form-data">
     @csrf
@@ -33,11 +34,23 @@
     </div>
 
     <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Categoria</label>
+      <select name="category_id" class="form-select" aria-label="Default select example">
+        <option value="">Seleziona categoria</option>
+        @foreach($categories as $category)
+        <option @if($category->id === old('category_id', $project->category?->id))
+          selected @endif
+          value="{{$category->id}}">{{$category->name}}
+        </option>
+        @endforeach
+      </select>
+    </div>
+
+    <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label">Immagine</label>
       <input type="file" onchange="showImage(event)" class="form-control @error('cover_image') is-invalid @enderror "
         value="{{old('cover_image')}}" name="cover_image">
       @error('cover_image') <p class="text-danger"> {{$message}} </p> @enderror
-
       <div class="cont-output-image">
         <img src="" alt="" id="output-image">
       </div>
